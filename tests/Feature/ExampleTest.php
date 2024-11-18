@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Role;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -13,6 +14,11 @@ class ExampleTest extends TestCase
     {
         // Create a test user
         $user = User::factory()->create();
+        $role = Role::factory()->create([
+            'name' => 'Admin',
+            'slug' => 'admin',
+            'status' => 1,
+        ]);
 
         // Log the user in
         $response = $this->actingAs($user)->get('/');

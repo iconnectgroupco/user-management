@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Livewire\Admin\AdminDashboard;
+use App\Livewire\Admin\NavigationComponent;
+use App\Livewire\Admin\RoleManagement;
+use App\Livewire\Admin\UserManagement;
 use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Login;
@@ -26,7 +28,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('/', AdminDashboard::class)->name('admin.dashboard');
+    Route::get('/', NavigationComponent::class)->name('admin.navigation');
+    Route::get('/user-management', UserManagement::class)->name('admin.user-management');
+    Route::get('/role-management', RoleManagement::class)->name('admin.role-management');
 });
 
 /*

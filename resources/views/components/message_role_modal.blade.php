@@ -1,4 +1,4 @@
-<div x-data="{ showModal: @entangle('showNotification'), loading: false }" 
+<div x-data="{ showModal: @entangle('showRoleNotification'), loading: false }" 
     x-show="showModal"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 scale-90"

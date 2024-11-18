@@ -14,9 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = Role::create(['name' => 'admin']);
-        Role::create(['name' => 'employee']);
-        Role::create(['name' => 'manager']);
+        $admin = Role::create([
+            'name' => 'Admin',
+            'slug' => 'admin',
+            'status' => '1',
+        ]);
+        Role::create([
+            'name' => 'Employee',
+            'slug' => 'employee',
+            'status' => '1',
+        ]);
+        Role::create([
+            'name' => 'Manager',
+            'slug' => 'manager',
+            'status' => '1',
+        ]);
 
         User::create([
             'name' => "Admin",

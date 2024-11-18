@@ -1,7 +1,5 @@
 <div class="bg-gray-600">
 
-    @include('components.navbar')
-
     <div class="xl:px-12">
         <!-- Main Container -->
         <div class="flex flex-wrap p-3 pt-10 rounded-lg items-stretch h-full">
@@ -214,7 +212,7 @@
 
         </div>
 
-        <div class="w-full px-7 pb-14">
+        <div class="w-full px-6 pb-14 pt-3">
             <div class="bg-gray-800 rounded-lg shadow-md">
                 <div class="flex items-center border-b border-gray-600 p-3 pl-10">
                     <h4 class="text-lg font-bold text-white flex-grow">All Users</h4>
@@ -241,7 +239,7 @@
                                 <tbody>
                                     @foreach($users as $user)
                                         <tr class="hover:bg-gray-600 border-b border-gray-600">
-                                            <td class="px-4 py-2 text-center text-sm">#test_{{ $user->id }}</td>
+                                            <td class="px-4 py-2 text-center text-sm">#user_{{ $user->id }}</td>
                                             <td class="px-4 py-2 text-center text-sm">{{ $user->name }}</td>
                                             <td class="px-4 py-2 text-center text-sm">{{ $user->email }}</td>
                                             <td class="px-4 py-2 text-center text-sm">{{ $user->contact_no }}</td>
@@ -273,10 +271,8 @@
 
     </div>
 
-
     @include('components.message_modal')
     @include('components.confirmation_modal')
     @include('components.edit_user_modal')
-
 
 </div>

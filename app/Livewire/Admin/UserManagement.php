@@ -8,19 +8,19 @@ use App\Models\Role;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 
-class AdminDashboard extends Component
+class UserManagement extends Component
 {
     public $users, $roles, $logs, $last_user, $name, $email, $password, $contact_no, $userId, $deleteUserId, $role_id = '', $status = '';
 
-    public $showNotification = false;
     public $confirmDelete = false;
     public $showEditModal = false;
 
+    public $editUserId, $editName, $editEmail, $editContact, $editRole, $editStatus;
+    public $showNotification = false;
     public $notificationTitle = '';
     public $notificationMessage = '';
 
-    public $editUserId, $editName, $editEmail, $editContact, $editRole, $editStatus;
-
+    
     public function render()
     {
         $this->users = User::where('id', '!=', auth()->id())->get();
@@ -28,7 +28,7 @@ class AdminDashboard extends Component
         $this->last_user = User::with('role')->latest()->first();
         $this->logs = Log::latest()->limit(6)->get();
 
-        return view('livewire.admin.admin-dashboard')->layout('layouts/app');
+        return view('livewire.admin.user-management');
     }
 
     public function store()
@@ -97,11 +97,10 @@ class AdminDashboard extends Component
             ]);
 
             $this->createLog($user, 'User Updated', 'User updated successfully!');
-
+            
             $this->showEditModal = false;
-
+            
             $this->notify('Success', 'User updated successfully!');
-
         } catch (ValidationException $e) {
             $errorMessages = $e->validator->errors()->all();
             $this->notify('Error', implode("\n", $errorMessages));

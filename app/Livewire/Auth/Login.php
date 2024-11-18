@@ -27,7 +27,7 @@ class Login extends Component
         if ($user && Hash::check($this->password, $user->password)) {
             if ($user->role && $user->role->name === 'Admin') {
                 Auth::login($user);
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.navigation');
             } elseif ($user->role) {
                 Auth::login($user);
                 return redirect()->route('dashboard');

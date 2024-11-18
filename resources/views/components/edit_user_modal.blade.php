@@ -15,6 +15,7 @@
                     <input type="text" id="editName" wire:model="editName"
                         class="w-full py-1 px-3 rounded border border-gray-700 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                         required>
+                        
                 </div>
                 <!-- Email -->
                 <div>

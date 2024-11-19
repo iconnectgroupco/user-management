@@ -18,7 +18,7 @@
                                 <input type="text" id="userName" name="name" wire:model="name"
                                     placeholder="Enter employee name"
                                     class="w-full py-1 px-3 rounded border border-gray-900 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                                    required>
+                                    required maxlength="255">
                             </div>
                             <!-- Email -->
                             <div>
@@ -26,7 +26,7 @@
                                 <input type="email" id="email" name="email" wire:model="email"
                                     placeholder="Enter employee email"
                                     class="w-full py-1 px-3 rounded border border-gray-700 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                                    required>
+                                    required maxlength="255">
                             </div>
                             <!-- Contact No -->
                             <div>
@@ -34,7 +34,7 @@
                                 <input type="text" id="phoneNo" name="phone" wire:model="contact_no"
                                     placeholder="Enter contact number"
                                     class="w-full py-1 px-3 rounded border border-gray-700 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                                    required>
+                                    required maxlength="15">
                             </div>
                             <!-- Password -->
                             <div x-data="{ showPassword: false }">
@@ -43,7 +43,7 @@
                                     <input :type="showPassword ? 'text' : 'password'" id="password" name="password"
                                         wire:model="password" placeholder="Enter employee password"
                                         class="w-full py-1 px-3 rounded border border-gray-700 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm pr-10"
-                                        required>
+                                        required maxlength="12">
 
                                     <!-- Eye icon (visible when password is hidden) -->
                                     <button type="button" @click="showPassword = !showPassword"
@@ -81,9 +81,9 @@
                                 <select id="role_id" name="role_id" wire:model="role_id"
                                     class="w-full py-1 px-3 rounded border border-gray-700 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                                     required>
-                                    <option value="" disabled selected>Asssign a role</option>
+                                    <option value="" disabled selected>Assign a role</option>
                                     @foreach ($roles as $role)
-                                        <option value={{ $role->id }}>{{ $role->name }}</option>
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -106,6 +106,7 @@
                                 </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -223,7 +224,7 @@
                             No users found.
                         </div>
                     @else
-                        <div class="overflow-x-auto"> 
+                        <div class="overflow-x-auto">
                             <table class="min-w-full table-auto text-gray-300 rounded-lg">
                                 <thead>
                                     <tr class="border-b border-gray-600">

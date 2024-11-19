@@ -24,24 +24,37 @@ class Login extends Component
 
         $user = User::where('email', $this->email)->with('role')->first();
 
-        if ($user && Hash::check($this->password, $user->password)) {
-            if ($user->role && $user->role->name === 'Admin') {
-                Auth::login($user);
-                return redirect()->route('admin.navigation');
-            } elseif ($user->role) {
-                Auth::login($user);
-                return redirect()->route('dashboard');
-            } else {
-                $this->errorMessage = 'You are not authorized to access this area.';
-                return;
-            }
+        if (!$user) {
+            $this->errorMessage = 'No account found with this email address.';
+            return;
         }
 
-        $this->errorMessage = 'Invalid credentials. Please try again.';
+        if (!Hash::check($this->password, $user->password)) {
+            $this->errorMessage = 'Incorrect password. Please try again.';
+            return;
+        }
+
+        if (!$user->role) {
+            $this->errorMessage = 'Your account is not properly configured. Please contact support.';
+            return;
+        }
+
+        if (isset($user->status) && $user->status !== "1") {
+            $this->errorMessage = 'Your account is inactive. Please contact support.';
+            return;
+        }
+
+        Auth::login($user);
+
+        if ($user->role->name === 'Admin') {
+            return redirect()->route('admin.navigation');
+        }
+
+        return redirect()->route('dashboard');
     }
 
     public function render()
     {
-        return view('livewire.auth.login')->layout('layouts.app');
+        return view('livewire.auth.login');
     }
 }

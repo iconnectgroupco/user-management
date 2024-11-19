@@ -11,7 +11,7 @@ class RoleManagement extends Component
 {
     public $roles, $name, $slug, $status = '', $editRoleId, $deleteRoleId;
     public $role;
-    
+
     public $showRoleNotification = false;
     public $showModal = false;
     public $showRoleEditModal = false;
@@ -20,13 +20,10 @@ class RoleManagement extends Component
     public $notificationTitle = '';
     public $notificationMessage = '';
 
-    public function mount()
-    {
-        $this->roles = Role::withCount('users')->get();
-    }
-
     public function render()
     {
+        $this->roles = Role::withCount('users')->get();
+
         return view('livewire.admin.role-management');
     }
 
@@ -60,6 +57,8 @@ class RoleManagement extends Component
     {
         $role = Role::findOrFail($id);
 
+        $this->resetFields();
+
         $this->editRoleId = $role->id;
         $this->name = $role->name;
         $this->slug = $role->slug;
@@ -92,6 +91,12 @@ class RoleManagement extends Component
 
         $this->notify('Success', 'Role updated successfully!');
 
+    }
+
+    public function closeEditModal()
+    {
+        $this->resetFields();
+        $this->showRoleEditModal = false;
     }
 
     public function generateSlug()

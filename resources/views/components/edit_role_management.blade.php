@@ -13,7 +13,8 @@
                 <div>
                     <label for="editRoleName" class="block text-gray-400 mb-1 text-sm">Name</label>
                     <input type="text" id="editRoleName" wire:model="name" wire:keyup="generateSlug"
-                        class="w-full py-1 px-3 rounded border border-gray-700 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm" required>
+                        class="w-full py-1 px-3 rounded border border-gray-700 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                        required>
                     @error('name') <!-- Show error message for 'name' -->
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
@@ -43,8 +44,9 @@
                 </div>
             </div>
             <div class="mt-5 flex justify-end space-x-3 px-3 mb-2">
-                <button @click="showModal = false"
+                <button wire:click="closeEditModal"
                     class="px-4 py-1 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">Cancel</button>
+
                 <button wire:click="updateRole"
                     class="px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm">Save</button>
             </div>

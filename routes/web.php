@@ -4,9 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Livewire\Admin\NavigationComponent;
 use App\Livewire\Admin\RoleManagement;
 use App\Livewire\Admin\UserManagement;
+use App\Livewire\Auth\AuthSwitcher;
 use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Auth\Login;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +18,7 @@ use App\Livewire\Auth\Login;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/login', Login::class)->name('login')->middleware('guest');
+Route::get('/', AuthSwitcher::class)->name('authenticate');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /*
@@ -38,8 +37,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 | User Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', Dashboard::class)->name('dashboard')->middleware('auth');
-
+Route::prefix('user')->middleware('auth')->group(function () {
+    Route::get('/', Dashboard::class)->name('dashboard');
+});
 
 /*
 |--------------------------------------------------------------------------

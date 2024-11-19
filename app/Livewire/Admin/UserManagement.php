@@ -10,6 +10,7 @@ use App\Models\User;
 
 class UserManagement extends Component
 {
+
     public $users, $roles, $logs, $last_user, $name, $email, $password, $contact_no, $userId, $deleteUserId, $role_id = '', $status = '';
 
     public $confirmDelete = false;
@@ -20,16 +21,27 @@ class UserManagement extends Component
     public $notificationTitle = '';
     public $notificationMessage = '';
 
-    
+
     public function render()
     {
         $this->users = User::where('id', '!=', auth()->id())->get();
-        $this->roles = Role::all();
-        $this->last_user = User::with('role')->latest()->first();
+        $this->roles = Role::where('name', '!=', 'Admin')
+            ->where('slug', '!=', 'admin')
+            ->get();
+
+        $this->last_user = User::with('role')
+            ->whereHas('role', function ($query) {
+                $query->where('name', '!=', 'Admin')
+                    ->where('slug', '!=', 'admin');
+            })
+            ->latest()
+            ->first();
+
         $this->logs = Log::latest()->limit(6)->get();
 
         return view('livewire.admin.user-management');
     }
+
 
     public function store()
     {
@@ -85,30 +97,32 @@ class UserManagement extends Component
 
     public function updateUser()
     {
-        try {
-            $user = User::findOrFail($this->editUserId);
 
-            $user->update([
-                'name' => $this->editName,
-                'email' => $this->editEmail,
-                'contact_no' => $this->editContact,
-                'role_id' => $this->editRole,
-                'status' => $this->editStatus,
-            ]);
+        $this->validate([
+            'editName' => 'required|string|max:255',
+            'editEmail' => 'required|email|unique:users,email,' . $this->editUserId,
+            'editContact' => 'required|numeric|digits_between:10,15',
+            'editRole' => 'required|exists:roles,id',
+            'editStatus' => 'required|in:0,1',
+        ]);
 
-            $this->createLog($user, 'User Updated', 'User updated successfully!');
-            
-            $this->showEditModal = false;
-            
-            $this->notify('Success', 'User updated successfully!');
-        } catch (ValidationException $e) {
-            $errorMessages = $e->validator->errors()->all();
-            $this->notify('Error', implode("\n", $errorMessages));
-        } catch (\Exception $e) {
-            // dd($e);
-            $this->notify('Error', 'An error occurred while saving the user. Please try again!');
-        }
+        $user = User::findOrFail($this->editUserId);
+
+        $user->update([
+            'name' => $this->editName,
+            'email' => $this->editEmail,
+            'contact_no' => $this->editContact,
+            'role_id' => $this->editRole,
+            'status' => $this->editStatus,
+        ]);
+
+        $this->createLog($user, 'User Updated', 'User updated successfully!');
+        $this->showEditModal = false;
+        $this->notify('Success', 'User updated successfully!');
+
+
     }
+
 
     public function deleteUser()
     {

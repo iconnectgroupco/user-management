@@ -29,14 +29,21 @@ class DatabaseSeeder extends Seeder
             'slug' => 'manager',
             'status' => '1',
         ]);
-
-        User::create([
-            'name' => "Admin",
-            'email' => "admin@gmail.com",
-            'password' => bcrypt(123456789),
-            'contact_no' => "0000000000",
-            'role_id' => $admin->id,
-            'status' => "1",
+        Role::create([
+            'name' => 'Editor',
+            'slug' => 'editor',
+            'status' => '1',
         ]);
+        Role::create([
+            'name' => 'User',
+            'slug' => 'user',
+            'status' => '1',
+        ]);
+        Role::create([
+            'name' => 'Guest',
+            'slug' => 'guest',
+            'status' => '1',
+        ]);
+
     }
 }
